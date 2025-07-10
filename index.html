@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>월간 캘린더</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- (햄버거 메뉴, 사이드 메뉴, 오버레이는 이전과 동일) -->
+    <button id="open-menu-btn" class="hamburger-menu"><span></span><span></span><span></span></button>
+    <nav id="side-menu"><button id="close-menu-btn">×</button><ul><li><button class="menu-item login-btn">로그인</button></li></ul></nav>
+    <div id="overlay"></div>
+
+    <!-- (메인 콘텐츠, 캘린더 헤더, 요일 표시는 이전과 동일) -->
+    <main id="main-content">
+        <div id="calendar-container">
+            <div class="calendar-header"><div class="month-navigation"><button id="prev-month">＜</button><h2 id="month-year"></h2><button id="next-month">＞</button></div></div>
+            <div class="days-of-week"><div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div></div>
+            <div id="calendar-body">
+                <div id="calendar-grid" class="calendar-grid"></div>
+                <div id="long-term-event-layer"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 일일/장기 메모 및 일정 모달 (수정됨) -->
+    <div id="memo-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">×</span>
+            <h3 id="memo-date"></h3>
+            <div class="modal-section">
+                <button id="add-event-btn">+ 일정 추가</button>
+                <div id="event-list"></div>
+            </div>
+            <div class="modal-section">
+                <h4>메모</h4>
+                <textarea id="memo-textarea" rows="4" placeholder="메모를 남겨보세요..."></textarea>
+            </div>
+            <!-- <<<<<<<<<<< 수정된 부분: 버튼 영역 >>>>>>>>>>>>> -->
+            <div class="modal-action-buttons">
+                <button id="delete-event-btn" class="delete-btn">일정 삭제</button>
+                <button id="save-data-btn">저장하기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- (장기 일정 확인/입력 모달은 이전과 동일) -->
+    <div id="long-term-confirm-modal" class="modal"><div class="modal-content small-modal"><h3>장기 일정</h3><p id="long-term-range-text"></p><p>이 기간에 장기 일정을 추가하시겠습니까?</p><div class="modal-buttons"><button id="confirm-long-term-yes">예</button><button id="confirm-long-term-no">아니오</button></div></div></div>
+    <div id="long-term-event-modal" class="modal"><div class="modal-content small-modal"><span class="close-button">×</span><h3 id="long-term-modal-title">장기 일정 추가</h3><input type="text" id="long-term-event-input" placeholder="일정 내용을 입력하세요 (예: 제주도 여행)"><div class="modal-buttons"><button id="save-long-term-event-btn">저장</button></div></div></div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

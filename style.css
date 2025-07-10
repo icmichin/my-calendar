@@ -1,0 +1,74 @@
+/* (대부분의 스타일은 이전과 동일) */
+:root { --side-menu-width: 250px; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f0f2f5; overflow-x: hidden; }
+.hamburger-menu { position: fixed; top: 20px; left: 20px; z-index: 2001; width: 35px; height: 30px; display: flex; flex-direction: column; justify-content: space-between; background: none; border: none; cursor: pointer; padding: 0; }
+.hamburger-menu span { display: block; width: 100%; height: 4px; background-color: #333; border-radius: 2px; }
+#side-menu { height: 100vh; width: var(--side-menu-width); position: fixed; top: 0; left: 0; background-color: #2c3e50; color: white; z-index: 2000; padding-top: 60px; transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
+#side-menu.open { transform: translateX(0); }
+#overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 1999; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
+#overlay.active { opacity: 1; visibility: visible; }
+#main-content { width: 100%; min-height: 100vh; padding: 20px; display: flex; justify-content: center; align-items: center; }
+#calendar-container { width: 100%; max-width: 1400px; background: #fff; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); padding: 20px; display: flex; flex-direction: column; height: 90vh; }
+.calendar-header { display: flex; justify-content: center; align-items: center; margin-bottom: 10px; }
+.days-of-week { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight: bold; padding-bottom: 10px; color: #666; }
+#calendar-body { flex-grow: 1; position: relative; }
+.calendar-grid, #long-term-event-layer { display: grid; grid-template-columns: repeat(7, 1fr); grid-template-rows: repeat(6, 1fr); position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.calendar-grid { border-top: 1px solid #e0e0e0; border-left: 1px solid #e0e0e0; }
+#long-term-event-layer { pointer-events: none; }
+.date-cell { border-right: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0; padding: 8px; position: relative; user-select: none; overflow-y: hidden; }
+.date-cell:not(.other-month):hover { background-color: #f9f9f9; cursor: pointer; }
+.other-month { color: #aaa; background-color: #fafafa; }
+.date-cell .day-number { font-size: 0.9em; font-weight: bold; position: relative; display: inline-block; }
+.today .day-number { color: #fff; background-color: #007bff; border-radius: 50%; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center; }
+.date-cell.selecting { background-color: rgba(0, 123, 255, 0.2); }
+.memo-indicator { position: absolute; top: -2px; right: -8px; width: 6px; height: 6px; background-color: #ff4d4f; border-radius: 50%; }
+.event-pill { background-color: #28a745; color: white; font-size: 0.75em; padding: 2px 6px; border-radius: 8px; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* --- 장기 일정 바 (수정됨) --- */
+.long-term-event-bar {
+    background-color: #17a2b8; color: white; font-size: 0.8em;
+    padding: 2px 8px; margin: 0 2px; border-radius: 4px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    z-index: 10; align-self: end; margin-bottom: 5px; height: 22px;
+    pointer-events: auto; cursor: pointer; transition: background-color 0.2s;
+}
+.long-term-event-bar:hover { background-color: #138496; }
+
+/* <<<<<<<<<<< 신규 스타일 >>>>>>>>>>>>> */
+.long-term-event-bar.has-memo {
+    background-color: #2c3e50; /* 군청색 */
+}
+.long-term-event-bar.has-memo:hover {
+    background-color: #1a2531;
+}
+
+/* --- 모달 (수정됨) --- */
+.modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); justify-content: center; align-items: center; }
+.modal-content { background-color: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); position: relative; display: flex; flex-direction: column; width: 90%; max-width: 500px; }
+.close-button { color: #aaa; position: absolute; top: 10px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer; }
+#memo-date { margin-bottom: 20px; }
+.modal-section { margin-bottom: 20px; }
+#add-event-btn { background-color: #f0f0f0; border: 1px solid #ddd; border-radius: 5px; padding: 8px 12px; cursor: pointer; margin-bottom: 10px; }
+#event-list .event-item { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+#event-list input { border: 1px solid #ccc; border-radius: 4px; padding: 5px; }
+#event-list input[type="text"] { flex-grow: 1; }
+#event-list .delete-event-btn { background: none; border: none; color: #ff4d4f; font-size: 1.2em; cursor: pointer; }
+#memo-textarea { width: 100%; padding: 10px; font-size: 1em; border: 1px solid #ccc; border-radius: 5px; resize: vertical; }
+
+/* <<<<<<<<<<< 신규/수정된 부분 >>>>>>>>>>>>> */
+.modal-action-buttons {
+    display: flex;
+    justify-content: space-between; /* 양쪽 끝으로 버튼 정렬 */
+    align-items: center;
+    margin-top: 15px;
+}
+#save-data-btn {
+    background-color: #007bff; color: white; padding: 10px 20px;
+    border: none; border-radius: 5px; cursor: pointer;
+}
+.delete-btn {
+    background-color: #dc3545; color: white; padding: 10px 20px;
+    border: none; border-radius: 5px; cursor: pointer;
+    display: none; /* 평소에는 숨김 */
+}
