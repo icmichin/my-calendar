@@ -202,12 +202,10 @@
         });
         elements.deleteEventBtn.addEventListener('click', () => {
             if (state.editingType !== 'long-term' || !state.editingId) return;
-            if (window.confirm('이 장기 일정을 정말 삭제하시겠습니까?')) {
                 state.calendarData.longTermEvents = state.calendarData.longTermEvents.filter(e => e.id !== state.editingId);
                 saveData();
                 closeAllModals();
                 renderCalendar();
-            }
         });
 
         // 드래그 및 클릭 이벤트
